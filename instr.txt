@@ -1,0 +1,10 @@
+#creation
+C:\Users\Lorenzo\AppData\Local\Programs\Python\Python312\python.exe -m venv venv_PPCalculator
+
+#activate
+venv_PPCalculator\Scripts\activate
+
+#freezing requirements
+pip freeze > requirements.txt
+
+
