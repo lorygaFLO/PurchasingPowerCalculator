@@ -48,3 +48,38 @@ def get_cost_of_living_data(year=2023):
     except Exception as e:
         print(f"Error processing data: {e}")
         return None
+
+
+def get_annual_income_data(year=2023):
+    """
+    Downloads annual income data from Numbeo for the specified year.
+    
+    Args:
+        year (int): The year for which to download data (default: 2023)
+        
+    Returns:
+        pandas.DataFrame: DataFrame containing annual income data
+    """
+    url = f'https://www.numbeo.com/cost-of-living/historical-prices-by-country?displayCurrency=EUR&year={year}&itemId=105'
+            
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        page = requests.get(url, headers=headers)
+        page.raise_for_status()
+        
+        html_io = StringIO(page.text)
+        df_income = pd.read_html(html_io)[-1]
+        
+        if 'Rank' in df_income.columns:
+            df_income = df_income.drop("Rank", axis=1)
+        
+        return df_income
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading income data: {e}")
+        return None
+    except Exception as e:
+        print(f"Error processing income data: {e}")
+        return None
