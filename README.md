@@ -1,6 +1,8 @@
 # Purchasing Power Calculator
 
-This project allows you to calculate purchasing power in different cities around the world based on Numbeo's cost of living data. The application automatically downloads historical data, lets you customize your spending habits, and compares the cost of living between different cities and years.
+This project allows you to calculate purchasing power in different countries around the world based on Numbeo's cost of living data. The application automatically downloads historical data, lets you customize your spending habits, and compares the cost of living between different cities and years.
+
+At the moment the tool is not exactly user-friendly. Some minimal programming competence are needed.
 
 ## Features
 
@@ -50,6 +52,8 @@ This project allows you to calculate purchasing power in different cities around
 4. Edit the generated JSON file to customize your consumption habits and preferences.
 
 5. Run the program again to recalculate with your personalized consumption patterns.
+
+6. Use the provide PowerBI in order to inspect the data and results
 
 ## Project Structure
 
