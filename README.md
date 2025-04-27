@@ -46,7 +46,7 @@ At the moment the tool is not exactly user-friendly. Some minimal programming co
 
 3. The program will automatically:
    - Download historical cost of living data from Numbeo
-   - Create a user consumption habits template file (`data/user_consumption_habits.json`)
+   - Create a user consumption habits template file (`data/habits_config.json`)
    - Calculate the cost of living based on these habits
 
 4. Edit the generated JSON file to customize your consumption habits and preferences.
@@ -63,7 +63,7 @@ PurchasingPowerCalculator/
 │   └── launch.json       # Debugger configuration
 ├── data/                 # Directory for generated data
 │   ├── cost_of_living_all_years.csv    # Combined historical data
-│   └── user_consumption_habits.json    # User's consumption patterns
+│   └── habits_config.json    # User's consumption patterns
 ├── utils/
 │   ├── __init__.py
 │   ├── constants.py      # Project constants

@@ -4,7 +4,7 @@ import json
 import numpy as np
 from datetime import datetime
 from utils.constants import BASEPATH
-from utils.scraper import get_cost_of_living_data, get_annual_income_data
+from utils.scraper import get_data
 
 def calculate_cost_of_living_by_habits(data, data_dir):
     """
@@ -16,7 +16,7 @@ def calculate_cost_of_living_by_habits(data, data_dir):
         data_dir (str): Path to the data directory
     """
     # Load the user's consumption habits
-    habits_file = os.path.join(data_dir, 'user_consumption_habits.json')
+    habits_file = os.path.join(data_dir, 'habits_config.json')
     
     if not os.path.exists(habits_file):
         raise FileNotFoundError("Consumption habits file not found. Please check...")
@@ -27,8 +27,8 @@ def calculate_cost_of_living_by_habits(data, data_dir):
     # Check if all values in the habits file are still zero (not modified by the user)
     all_zeros = all(value == 0 for value in user_habits.values())
     if all_zeros:
-        print("\nWARNING: The consumption habits file has not been modified.")
-        print("All values are still zero. Please modify the 'user_consumption_habits.json' file")
+        print("\nWARNING: The consumption habits file not found or not modified.")
+        print("All values are still zero. Please modify the 'habits_config.json' file")
         print("in the 'data' folder by entering your monthly consumption values before running this calculation.")
         return
     # Get all available years in the data
@@ -52,15 +52,25 @@ def calculate_cost_of_living_by_habits(data, data_dir):
             country_name = city_row['Country'] if 'Country' in city_row else "N/A"
             annual_cost = 0.0
             
-            # Handle non-numeric values for annual income
-            try:
-                annual_income = float(city_row.get('Average Monthly Net Salary (After Tax)_y', 0)) * 12
-            except ValueError:
-                annual_income = 0.0  # Set to 0 if the value is not numeric
+            # Handle non-numeric values for annual income - cerca colonne con 'income' nel nome
+            annual_income = 0.0
+            for col in city_row.index:
+                if 'income' in col.lower() or 'salary' in col.lower():
+                    try:
+                        income_value = float(city_row[col])
+                        # Assumiamo che sia un valore mensile e lo moltiplichiamo per 12
+                        annual_income = income_value * 12
+                        break  # Usa il primo valore di reddito trovato
+                    except (ValueError, TypeError):
+                        continue  # Passa alla prossima colonna se questa non è numerica
             
             city_breakdown = {}
             
             for category, amount in user_habits.items():
+                # Escludiamo le voci di reddito dal calcolo dei costi
+                if 'income' in category.lower() or 'salary' in category.lower():
+                    continue
+                    
                 if category in city_row and pd.notna(city_row[category]) and amount > 0:
                     try:
                         # Convert values to float to ensure they are numeric

@@ -10,11 +10,13 @@ import os
 import pandas as pd
 import json
 from datetime import datetime
-from utils.scraper import get_cost_of_living_data
+from utils.scraper import get_data
 from utils.constants import BASEPATH
 from utils.downloader import download_historical_data
 from utils.habits_file import create_user_consumption_habits
 from utils.utils import *
+
+
 
 def main():
     # File paths

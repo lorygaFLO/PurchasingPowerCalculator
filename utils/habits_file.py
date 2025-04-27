@@ -13,7 +13,7 @@ def create_user_consumption_habits(df, data_dir):
         data_dir (str): Path to the data directory
     """
     # JSON file path
-    json_file = os.path.join(data_dir, 'user_consumption_habits.json')
+    json_file = os.path.join(data_dir, 'habits_config.json')
     
     # Check if file already exists
     if os.path.exists(json_file):
